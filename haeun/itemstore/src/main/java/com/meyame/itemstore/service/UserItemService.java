@@ -6,7 +6,7 @@ import com.meyame.itemstore.domain.auth.User;
 import com.meyame.itemstore.dto.request.useritem.UserItemDeleteReqDto;
 import com.meyame.itemstore.dto.request.useritem.UserItemStoreReqDto;
 import com.meyame.itemstore.dto.response.useritem.UserItemInfoResDto;
-import com.meyame.itemstore.exception.CustomException;
+import com.meyame.itemstore.exception.custom.CustomException;
 import com.meyame.itemstore.repository.ItemRepository;
 import com.meyame.itemstore.repository.UserItemRepository;
 import com.meyame.itemstore.repository.auth.UserRepository;

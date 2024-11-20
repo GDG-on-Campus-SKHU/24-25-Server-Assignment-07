@@ -1,4 +1,4 @@
-package com.meyame.itemstore.controller;
+package com.meyame.itemstore.controller.auth;
 
 import com.meyame.itemstore.domain.auth.Role;
 import com.meyame.itemstore.dto.request.auth.JwtRefreshTokenSignInReqDto;

@@ -1,7 +1,7 @@
 package com.meyame.itemstore.domain;
 
 import com.meyame.itemstore.domain.auth.User;
-import com.meyame.itemstore.exception.CustomException;
+import com.meyame.itemstore.exception.custom.CustomException;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

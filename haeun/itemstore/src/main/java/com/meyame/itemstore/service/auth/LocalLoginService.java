@@ -12,7 +12,7 @@ import com.meyame.itemstore.dto.response.auth.JwtRefreshTokenResDto;
 import com.meyame.itemstore.dto.response.auth.SignUpResDto;
 import com.meyame.itemstore.dto.response.user.UserInfoResDto;
 import com.meyame.itemstore.dto.response.user.UserUpdateResDto;
-import com.meyame.itemstore.exception.CustomException;
+import com.meyame.itemstore.exception.custom.CustomException;
 import com.meyame.itemstore.jwt.JwtTokenProvider;
 import com.meyame.itemstore.repository.auth.RefreshTokenRepository;
 import com.meyame.itemstore.repository.auth.UserRepository;

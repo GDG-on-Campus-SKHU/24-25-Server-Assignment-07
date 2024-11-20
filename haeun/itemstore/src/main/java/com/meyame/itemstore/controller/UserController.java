@@ -22,7 +22,7 @@ public class UserController {
     private final LocalLoginService localLoginService;
 
     // 구글 로그인한 사용자 정보 조회
-    @GetMapping("/google/info")
+    @GetMapping("/google/profile")
     public UserInfoDto getGoogleUserInfo(Principal principal) {
         return googleLoginService.getGoogleUserInfo(principal);
     }

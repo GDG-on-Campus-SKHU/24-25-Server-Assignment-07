@@ -4,19 +4,16 @@ import com.meyame.itemstore.domain.Item;
 import com.meyame.itemstore.dto.request.item.ItemUpdateReqDto;
 import com.meyame.itemstore.dto.response.item.ItemInfoResDto;
 import com.meyame.itemstore.dto.request.item.ItemRegisterReqDto;
-import com.meyame.itemstore.exception.CustomException;
+import com.meyame.itemstore.exception.custom.CustomException;
 import com.meyame.itemstore.repository.ItemRepository;
 
 import lombok.RequiredArgsConstructor;
-import lombok.With;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static com.meyame.itemstore.exception.ErrorCode.NO_ITEM_FOUND;
+import static com.meyame.itemstore.exception.ErrorCode.ITEM_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +34,7 @@ public class ItemService {
     @Transactional(readOnly = true)
     public ItemInfoResDto findItemById(Long itemId) {
         Item item = itemRepository.getItemById(itemId)
-                .orElseThrow(() -> new CustomException(NO_ITEM_FOUND));
+                .orElseThrow(() -> new CustomException(ITEM_NOT_FOUND));
 
         return ItemInfoResDto.from(item);
     }
@@ -56,7 +53,7 @@ public class ItemService {
     @Transactional
     public ItemInfoResDto updateItemById(Long itemId, ItemUpdateReqDto itemUpdateReqDto) {
         Item item = itemRepository.findById(itemId)
-                .orElseThrow(() -> new CustomException(NO_ITEM_FOUND));
+                .orElseThrow(() -> new CustomException(ITEM_NOT_FOUND));
         item.update(itemUpdateReqDto.name(), itemUpdateReqDto.price());
 
         return ItemInfoResDto.from(item);

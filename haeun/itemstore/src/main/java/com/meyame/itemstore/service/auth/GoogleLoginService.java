@@ -8,7 +8,7 @@ import com.meyame.itemstore.dto.response.auth.GoogleAccessTokenResDto;
 import com.meyame.itemstore.dto.response.auth.GoogleUserInfoResDto;
 import com.meyame.itemstore.dto.response.auth.JwtAccessTokenResDto;
 import com.meyame.itemstore.dto.response.auth.UserInfoDto;
-import com.meyame.itemstore.exception.CustomException;
+import com.meyame.itemstore.exception.custom.CustomException;
 import com.meyame.itemstore.jwt.JwtTokenProvider;
 import com.meyame.itemstore.repository.auth.UserRepository;
 import org.springframework.beans.factory.annotation.Value;

@@ -33,15 +33,9 @@ public class JwtFilter extends GenericFilterBean {
         try {
             // token 이 비어있지 않거나, ACCESS TOKEN 이면
             if (StringUtils.hasText(token) && jwtTokenProvider.validateAccessToken(token)) {
-                System.out.println("token: " + token);
                 // 토큰에서 사용자를 가져오고, getAuthentication() 함수에서
                 // 사용자의 권한 정보를 securityContextHolder에 담아준다.
                 Authentication authentication = jwtTokenProvider.getAuthentication(token);
-                if (authentication == null) {
-                    System.out.println("Authentication is null");
-                } else {
-                    System.out.println("Authenticated user: " + authentication.getName());
-                }
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (ExpiredJwtException e) {

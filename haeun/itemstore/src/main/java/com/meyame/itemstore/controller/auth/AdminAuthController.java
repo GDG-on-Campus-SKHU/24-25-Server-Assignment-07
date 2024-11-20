@@ -1,4 +1,4 @@
-package com.meyame.itemstore.controller;
+package com.meyame.itemstore.controller.auth;
 
 import com.meyame.itemstore.domain.auth.Role;
 import com.meyame.itemstore.dto.request.auth.JwtRefreshTokenSignInReqDto;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/auth/admin")
+@RequestMapping("/api/admin/auth")
 public class AdminAuthController {
 
     // 관리자는 자체 회원가입/로그인 기능만 제공
