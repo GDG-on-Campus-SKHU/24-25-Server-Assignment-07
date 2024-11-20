@@ -5,6 +5,8 @@ import com.gdg.googleloginproject.domain.Role;
 import com.gdg.googleloginproject.domain.User;
 import com.gdg.googleloginproject.dto.response.TokenDto;
 import com.gdg.googleloginproject.dto.response.UserInfo;
+import com.gdg.googleloginproject.exception.CustomException;
+import com.gdg.googleloginproject.exception.ErrorMessage;
 import com.gdg.googleloginproject.jwt.TokenProvider;
 import com.gdg.googleloginproject.repository.UserRepository;
 import com.google.gson.Gson;
@@ -57,14 +59,14 @@ public class GoogleLoginService {
                     .getAccessToken();
         }
 
-        throw new RuntimeException("구글 엑세스 토큰을 가져오는데 실패했습니다.");
+        throw new CustomException(ErrorMessage.FAILED_TO_FETCH_GOOGLE_TOKEN);
     }
 
     public TokenDto loginOrSignUp(String googleAccessToken) {
         UserInfo userInfo = getUserInfo(googleAccessToken);
 
         if (!userInfo.getVerifiedEmail()) {
-            throw new RuntimeException("이메일 인증이 되지 않은 유저입니다.");
+            throw new CustomException(ErrorMessage. EMAIL_NOT_VERIFIED);
         }
 
         User user = userRepository.findByEmail(userInfo.getEmail())
@@ -101,13 +103,13 @@ public class GoogleLoginService {
             return gson.fromJson(json, UserInfo.class);
         }
 
-        throw new RuntimeException("유저 정보를 가져오는데 실패했습니다.");
+        throw new CustomException(ErrorMessage.FAILED_TO_FETCH_USER_INFO);
     }
 
     public User test(Principal principal) {
         Long id = Long.parseLong(principal.getName());
 
         return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorMessage.USER_IS_NOT_EXIST));
     }
 }

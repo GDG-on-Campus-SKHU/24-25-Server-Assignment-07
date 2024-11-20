@@ -1,6 +1,8 @@
 package com.gdg.googleloginproject.jwt;
 
 import com.gdg.googleloginproject.domain.User;
+import com.gdg.googleloginproject.exception.CustomException;
+import com.gdg.googleloginproject.exception.ErrorMessage;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -51,7 +53,7 @@ public class TokenProvider {
         Claims claims = parseClaims(accessToken);
 
         if (claims.get(ROLE_CLAIM) == null) {
-            throw new RuntimeException("권한 정보가 없는 토큰입니다.");
+            throw new CustomException(ErrorMessage.TOKEN_MISSING_AUTHORITY);
         }
 
         // 사용자의 권한 정보를 securityContextHolder에 담아준다
@@ -99,7 +101,7 @@ public class TokenProvider {
         } catch (ExpiredJwtException e) {
             return e.getClaims();
         } catch (SignatureException e) {
-            throw new RuntimeException("토큰 복호화에 실패했습니다.");
+            throw new CustomException(ErrorMessage.TOKEN_DECODING_FAILED);
         }
     }
 }

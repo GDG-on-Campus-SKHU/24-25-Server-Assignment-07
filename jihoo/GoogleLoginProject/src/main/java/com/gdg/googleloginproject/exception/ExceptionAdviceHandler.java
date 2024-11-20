@@ -12,7 +12,7 @@ public class ExceptionAdviceHandler {
     protected ResponseEntity handleCustomException(CustomException ex) {
         return new ResponseEntity(new ErrorDto(ex.getErrorMessage().getStatusCode(), ex.getErrorMessage().getMessage()), HttpStatus.valueOf(ex.getErrorMessage().getStatusCode()));
     }
-    
+
     @ExceptionHandler({MethodArgumentNotValidException.class})
     protected ResponseEntity handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         return new ResponseEntity<>(e.getBindingResult().getFieldErrors().get(0),

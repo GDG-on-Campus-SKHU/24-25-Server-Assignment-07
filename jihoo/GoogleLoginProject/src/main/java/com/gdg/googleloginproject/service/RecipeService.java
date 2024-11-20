@@ -4,6 +4,8 @@ import com.gdg.googleloginproject.domain.Recipe;
 import com.gdg.googleloginproject.domain.User;
 import com.gdg.googleloginproject.dto.request.RecipeRequestDto;
 import com.gdg.googleloginproject.dto.response.RecipeInfoDto;
+import com.gdg.googleloginproject.exception.CustomException;
+import com.gdg.googleloginproject.exception.ErrorMessage;
 import com.gdg.googleloginproject.repository.RecipeRepository;
 import com.gdg.googleloginproject.repository.UserRepository;
 import lombok.AccessLevel;
@@ -34,7 +36,8 @@ public class RecipeService {
     public void saveRecipe(Principal principal, String uploadFilePath, RecipeRequestDto recipeRequestDto) {
         Long userId = Long.parseLong(principal.getName());
 
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다."));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ErrorMessage.USER_IS_NOT_EXIST));
 
         recipeRepository.save(Recipe.builder()
                 .title(recipeRequestDto.title())
@@ -47,7 +50,8 @@ public class RecipeService {
     @Transactional(readOnly = true)
     public RecipeInfoDto readRecipe(Long recipeId) {
 
-        Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(() -> new IllegalArgumentException("레시피를 찾을 수 없습니다."));
+        Recipe recipe = recipeRepository.findById(recipeId)
+                .orElseThrow(() -> new CustomException(ErrorMessage.RECIPE_NOT_FOUND));
 
         return RecipeInfoDto.from(recipe);
     }
@@ -56,10 +60,11 @@ public class RecipeService {
     public RecipeInfoDto updateRecipe(Long recipeId, RecipeRequestDto recipeRequestDto, Principal principal, String uploadFilePath) {
         Long userId = Long.parseLong(principal.getName());
 
-        Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(() -> new IllegalArgumentException("레시피를 찾을 수 없습니다."));
+        Recipe recipe = recipeRepository.findById(recipeId)
+                .orElseThrow(() -> new CustomException(ErrorMessage.RECIPE_NOT_FOUND));
 
         if(recipe.getUser().getId() != userId){
-            throw new RuntimeException("수정 권한이 없습니다.");
+            throw new CustomException(ErrorMessage.NO_PERMISSION_TO_EDIT);
         }
 
         recipe.update(recipeRequestDto, uploadFilePath);
@@ -71,10 +76,11 @@ public class RecipeService {
     public void deleteRecipe(Long recipeId, Principal principal) {
         Long userId = Long.parseLong(principal.getName());
 
-        Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(() -> new IllegalArgumentException("레시피를 찾을 수 없습니다."));
+        Recipe recipe = recipeRepository.findById(recipeId)
+                .orElseThrow(() -> new CustomException(ErrorMessage.RECIPE_NOT_FOUND));
 
         if(recipe.getUser().getId() != userId){
-            throw new RuntimeException("삭제 권한이 없습니다.");
+            throw new CustomException(ErrorMessage.NO_PERMISSION_TO_DELETE);
         }
         recipeRepository.delete(recipe);
     }
