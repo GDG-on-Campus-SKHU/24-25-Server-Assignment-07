@@ -34,8 +34,7 @@ public class User {
     private LoginMethod loginMethod; //자체 로그인인지, 구글로그인인지 판별
 
     @Builder
-    public User(Long id, String email, String password, String username, String profileUrl, Role role, LoginMethod loginMethod) {
-        this.id = id;
+    public User(String email, String password, String username, String profileUrl, Role role, LoginMethod loginMethod) {
         this.email = email;
         this.password = password;
         this.username = username;
