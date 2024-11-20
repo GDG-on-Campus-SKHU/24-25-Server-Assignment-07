@@ -1,5 +1,6 @@
 package com.meyame.itemstore.controller;
 
+import com.meyame.itemstore.domain.auth.Role;
 import com.meyame.itemstore.dto.request.auth.JwtRefreshTokenSignInReqDto;
 import com.meyame.itemstore.dto.request.auth.SignUpReqDto;
 import com.meyame.itemstore.dto.response.auth.JwtAccessTokenResDto;
@@ -48,7 +49,7 @@ public class AuthController {
     // 자체 로그인 - 결과로 Access Token + Refresh Token 반환
     @PostMapping("/login/refresh")
     public ResponseEntity<JwtRefreshTokenResDto> refreshTokenSignIn(@RequestBody JwtRefreshTokenSignInReqDto jwtRefreshTokenSignInReqDto) {
-        JwtRefreshTokenResDto token = localLoginService.signInWithRefreshToken(jwtRefreshTokenSignInReqDto);
+        JwtRefreshTokenResDto token = localLoginService.signInWithRefreshToken(jwtRefreshTokenSignInReqDto, Role.USER);
         return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 

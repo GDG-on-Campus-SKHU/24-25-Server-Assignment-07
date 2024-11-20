@@ -61,12 +61,16 @@ public class LocalLoginService {
 
     // refresh token 을 이용한 로그인
     @Transactional
-    public JwtRefreshTokenResDto signInWithRefreshToken(JwtRefreshTokenSignInReqDto refreshTokenSignInReqDto) {
+    public JwtRefreshTokenResDto signInWithRefreshToken(JwtRefreshTokenSignInReqDto refreshTokenSignInReqDto, Role requiredRole) {
         User user = userRepository.findByEmail(refreshTokenSignInReqDto.email())
                 .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
         // 비밀번호 검증
         if(!passwordEncoder.matches(refreshTokenSignInReqDto.password(), user.getPassword())) {
             throw new CustomException(INCORRECT_PASSWORD);
+        }
+        // 역할 검증
+        if(user.getRole() != requiredRole) {
+            throw new CustomException(ROLE_NOT_AUTHORIZATION); // 역할 검증 실패
         }
         // access token + refresh token 생성
         String accessToken = jwtTokenProvider.createAccessToken(user);
@@ -128,5 +132,22 @@ public class LocalLoginService {
     @Transactional
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+
+    // 관리자 전용 회원가입
+    public SignUpResDto adminSignUp(SignUpReqDto signUpReqDto) {
+        // 패스워드 암호화
+        String password = signUpReqDto.password();
+        String encodedPassword = passwordEncoder.encode(password);
+
+        User user = userRepository.save(User.builder()
+                .email(signUpReqDto.email())
+                .password(encodedPassword)
+                .name(signUpReqDto.name())
+                .role(Role.ADMIN) // 관리자 ADMIN 권한 부여
+                .authProvider(AuthProvider.LOCAL) // 항상 LOCAL 로 설정
+                .build());
+
+        return SignUpResDto.from(user);
     }
 }

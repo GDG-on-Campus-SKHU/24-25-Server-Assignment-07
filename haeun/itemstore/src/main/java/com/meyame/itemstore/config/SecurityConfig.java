@@ -5,6 +5,7 @@ import com.meyame.itemstore.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -35,8 +36,13 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/api/auth/**","/api/items/**").permitAll()
-                        .requestMatchers("/api/users/**").authenticated()
+                        .requestMatchers("/api/auth/**").permitAll() // 모든 사용자가 회원가입/로그인 가능
+                        .requestMatchers(HttpMethod.GET, "api/items/**").permitAll() // 모든 사용자가 아이템 조회 가능
+                        // 아이템 등록, 수정, 삭제는 관리자만 가능
+                        .requestMatchers(HttpMethod.POST, "/api/items/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/api/items/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/items/**").hasRole("ADMIN")
+                        .requestMatchers("/api/users/**").authenticated() // 인증된 사용자만 접근 가능
                         .anyRequest().authenticated()
                 )
                 .cors(cors -> cors.configurationSource(configurationSource()))
