@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/admin/auth")
+@RequestMapping("/api/auth/admin")
 public class AdminAuthController {
 
     // 관리자는 자체 회원가입/로그인 기능만 제공
