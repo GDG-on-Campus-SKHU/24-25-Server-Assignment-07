@@ -3,8 +3,8 @@ package com.gdg.googleloginproject.service;
 import com.gdg.googleloginproject.domain.LoginMethod;
 import com.gdg.googleloginproject.domain.Role;
 import com.gdg.googleloginproject.domain.User;
-import com.gdg.googleloginproject.dto.TokenDto;
-import com.gdg.googleloginproject.dto.UserInfo;
+import com.gdg.googleloginproject.dto.response.TokenDto;
+import com.gdg.googleloginproject.dto.response.UserInfo;
 import com.gdg.googleloginproject.jwt.TokenProvider;
 import com.gdg.googleloginproject.repository.UserRepository;
 import com.google.gson.Gson;
@@ -73,7 +73,7 @@ public class GoogleLoginService {
                         .username(userInfo.getName())
                         .profileUrl(userInfo.getPictureUrl())
                         .role(Role.USER)
-                        .loginMethod(LoginMethod.GOOGLE)
+                        .loginMethod(LoginMethod.GOOGLE) //구글로 가입/로그인 구분
                         .build())
                 );
 

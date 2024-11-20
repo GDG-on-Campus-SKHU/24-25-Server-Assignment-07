@@ -3,7 +3,7 @@ package com.gdg.googleloginproject.service;
 import com.gdg.googleloginproject.domain.LoginMethod;
 import com.gdg.googleloginproject.domain.Role;
 import com.gdg.googleloginproject.domain.User;
-import com.gdg.googleloginproject.dto.TokenDto;
+import com.gdg.googleloginproject.dto.response.TokenDto;
 import com.gdg.googleloginproject.dto.request.UserLoginDto;
 import com.gdg.googleloginproject.dto.request.UserSignUpDto;
 import com.gdg.googleloginproject.dto.response.UserInfoDto;
@@ -13,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
@@ -22,6 +23,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
 
+    @Transactional
     public UserInfoDto saveUser(UserSignUpDto userSignUpDto) {
 
         if(isDuplicate(userSignUpDto.email())){
@@ -39,10 +41,12 @@ public class UserService {
         return UserInfoDto.from(user);
     }
 
+    //이메일 중복검사 메서드
     private boolean isDuplicate(String email) {
-        return userRepository.existsByUserEmail(email);
+        return userRepository.existsByEmail(email);
     }
 
+    @Transactional
     public TokenDto loginUser(UserLoginDto userLoginDto) {
         User findUser = userRepository.findByEmail(userLoginDto.email())
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));

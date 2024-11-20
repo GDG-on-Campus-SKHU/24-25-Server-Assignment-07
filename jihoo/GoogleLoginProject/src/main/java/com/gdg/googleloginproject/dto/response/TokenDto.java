@@ -1,4 +1,4 @@
-package com.gdg.googleloginproject.dto;
+package com.gdg.googleloginproject.dto.response;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;

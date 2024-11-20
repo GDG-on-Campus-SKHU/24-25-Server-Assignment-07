@@ -8,7 +8,7 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
@@ -22,6 +22,6 @@ jwt:
 client_id: ${GOOGLE_CLIENT_ID}
 client_secret: ${GOOGLE_CLIENT_SECRET}
 
-# 업로드 파일 저장 경로
+# 업로드 파일 저장 경로 설정
 upload:
-  path: C:/board_image
+  path: ${UPLOAD_PATH:C:/board_image}

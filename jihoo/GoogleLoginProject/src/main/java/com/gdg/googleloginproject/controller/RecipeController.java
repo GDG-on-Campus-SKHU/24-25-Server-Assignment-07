@@ -8,9 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/recipe")
@@ -21,23 +21,13 @@ public class RecipeController {
 
     @PostMapping
     public ResponseEntity<?> saveRecipe(Principal principal,
-                                        @RequestPart(value = "ImageFile", required = false) MultipartFile imageFile, @RequestBody RecipeRequestDto recipeRequestDto) throws IOException {
+                                        @RequestPart(name = "ImageFile", required = false) MultipartFile imageFile, @RequestPart(name = "recipe") RecipeRequestDto recipeRequestDto) throws IOException {
 
         String uploadFilePath = getUploadFilePath(imageFile);
 
         recipeService.saveRecipe(principal, uploadFilePath, recipeRequestDto);
 
         return ResponseEntity.ok().build();
-    }
-
-    //파일 경로를 리턴할 메서드 추출
-    private String getUploadFilePath(MultipartFile imageFile) throws IOException {
-        String uploadFilePath = null;
-        if (imageFile != null) {
-            uploadFilePath = recipeService.uploadImage(imageFile);
-        }
-
-        return uploadFilePath;
     }
 
     @GetMapping("/{recipeId}")
@@ -47,8 +37,8 @@ public class RecipeController {
 
     @PatchMapping("/{recipeId}")
     public ResponseEntity<RecipeInfoDto> updateRecipe(@PathVariable Long recipeId
-            , @RequestBody RecipeRequestDto recipeRequestDto, Principal principal,
-                                                      @RequestPart(value = "ImageFile", required = false) MultipartFile imageFile) throws IOException {
+            , @RequestPart(name = "recipe") RecipeRequestDto recipeRequestDto, Principal principal,
+                                                      @RequestPart(name = "ImageFile", required = false) MultipartFile imageFile) throws IOException {
 
         String uploadFilePath = getUploadFilePath(imageFile);
 
@@ -60,5 +50,19 @@ public class RecipeController {
         recipeService.deleteRecipe(recipeId, principal);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<RecipeInfoDto>> readAllRecipes(Principal principal) {
+        return ResponseEntity.ok().body(recipeService.readAllRecipes(principal));
+    }
+
+    //파일 경로를 리턴할 메서드 추출
+    private String getUploadFilePath(MultipartFile imageFile) throws IOException {
+        String uploadFilePath = null;
+        if (imageFile != null) {
+            uploadFilePath = recipeService.uploadImage(imageFile);
+        }
+        return uploadFilePath;
     }
 }

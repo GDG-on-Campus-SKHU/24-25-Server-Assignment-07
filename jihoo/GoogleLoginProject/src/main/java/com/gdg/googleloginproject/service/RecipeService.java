@@ -10,11 +10,13 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -28,6 +30,7 @@ public class RecipeService {
     @Value("${upload.path}")
     private String uploadRootPath;
 
+    @Transactional
     public void saveRecipe(Principal principal, String uploadFilePath, RecipeRequestDto recipeRequestDto) {
         Long userId = Long.parseLong(principal.getName());
 
@@ -41,6 +44,7 @@ public class RecipeService {
                 .build());
     }
 
+    @Transactional(readOnly = true)
     public RecipeInfoDto readRecipe(Long recipeId) {
 
         Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(() -> new IllegalArgumentException("레시피를 찾을 수 없습니다."));
@@ -48,6 +52,7 @@ public class RecipeService {
         return RecipeInfoDto.from(recipe);
     }
 
+    @Transactional
     public RecipeInfoDto updateRecipe(Long recipeId, RecipeRequestDto recipeRequestDto, Principal principal, String uploadFilePath) {
         Long userId = Long.parseLong(principal.getName());
 
@@ -62,6 +67,7 @@ public class RecipeService {
         return RecipeInfoDto.from(recipe);
     }
 
+    @Transactional
     public void deleteRecipe(Long recipeId, Principal principal) {
         Long userId = Long.parseLong(principal.getName());
 
@@ -87,5 +93,12 @@ public class RecipeService {
         imageFile.transferTo(uploadFile);
 
         return uniqueFileName;
+    }
+
+    public List<RecipeInfoDto> readAllRecipes(Principal principal) {
+        List<Recipe> allRecipes = recipeRepository.findAll();
+        List<RecipeInfoDto> RecipeInfoDtos = allRecipes.stream().map(RecipeInfoDto::from).toList();
+
+        return RecipeInfoDtos;
     }
 }

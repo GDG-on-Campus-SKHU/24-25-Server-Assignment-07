@@ -1,6 +1,6 @@
 package com.gdg.googleloginproject.controller;
 
-import com.gdg.googleloginproject.dto.TokenDto;
+import com.gdg.googleloginproject.dto.response.TokenDto;
 import com.gdg.googleloginproject.service.GoogleLoginService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

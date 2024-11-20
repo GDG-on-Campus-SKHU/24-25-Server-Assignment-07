@@ -1,6 +1,6 @@
 package com.gdg.googleloginproject.controller;
 
-import com.gdg.googleloginproject.dto.TokenDto;
+import com.gdg.googleloginproject.dto.response.TokenDto;
 import com.gdg.googleloginproject.dto.request.UserLoginDto;
 import com.gdg.googleloginproject.dto.request.UserSignUpDto;
 import com.gdg.googleloginproject.dto.response.UserInfoDto;
@@ -25,7 +25,4 @@ public class UserController {
     public ResponseEntity<TokenDto> login(@RequestBody UserLoginDto userLoginDto) {
         return ResponseEntity.ok().body(userService.loginUser(userLoginDto));
     }
-
-
-
 }
