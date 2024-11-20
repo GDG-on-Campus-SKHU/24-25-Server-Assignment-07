@@ -14,7 +14,7 @@ public record UserInfoResDto(
         return UserInfoResDto.builder()
                 .email(user.getEmail())
                 .name(user.getName())
-                .role(Role.USER)
+                .role(user.getRole())
                 .build();
     }
 }
