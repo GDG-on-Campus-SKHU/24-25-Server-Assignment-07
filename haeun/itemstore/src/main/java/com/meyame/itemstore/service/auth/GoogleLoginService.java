@@ -1,4 +1,4 @@
-package com.meyame.itemstore.service;
+package com.meyame.itemstore.service.auth;
 
 import com.google.gson.Gson;
 import com.meyame.itemstore.domain.auth.AuthProvider;
@@ -10,8 +10,7 @@ import com.meyame.itemstore.dto.response.auth.JwtAccessTokenResDto;
 import com.meyame.itemstore.dto.response.auth.UserInfoDto;
 import com.meyame.itemstore.exception.CustomException;
 import com.meyame.itemstore.jwt.JwtTokenProvider;
-import com.meyame.itemstore.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
+import com.meyame.itemstore.repository.auth.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.meyame.itemstore.service;
+package com.meyame.itemstore.service.auth;
 
 import com.meyame.itemstore.domain.auth.AuthProvider;
 import com.meyame.itemstore.domain.auth.RefreshToken;
@@ -14,8 +14,8 @@ import com.meyame.itemstore.dto.response.user.UserInfoResDto;
 import com.meyame.itemstore.dto.response.user.UserUpdateResDto;
 import com.meyame.itemstore.exception.CustomException;
 import com.meyame.itemstore.jwt.JwtTokenProvider;
-import com.meyame.itemstore.repository.RefreshTokenRepository;
-import com.meyame.itemstore.repository.UserRepository;
+import com.meyame.itemstore.repository.auth.RefreshTokenRepository;
+import com.meyame.itemstore.repository.auth.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

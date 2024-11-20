@@ -1,4 +1,4 @@
-package com.meyame.itemstore.repository;
+package com.meyame.itemstore.repository.auth;
 
 import com.meyame.itemstore.domain.auth.RefreshToken;
 import org.springframework.data.jpa.repository.JpaRepository;
