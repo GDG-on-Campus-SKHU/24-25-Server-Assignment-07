@@ -20,8 +20,9 @@ public class RecipeController {
     private final RecipeService recipeService;
 
     @PostMapping
-    public ResponseEntity<?> saveRecipe(Principal principal,
-                                        @RequestPart(name = "ImageFile", required = false) MultipartFile imageFile, @RequestPart(name = "recipe") RecipeRequestDto recipeRequestDto) throws IOException {
+    public ResponseEntity<RecipeInfoDto> saveRecipe(Principal principal,
+                                        @RequestPart(name = "ImageFile", required = false) MultipartFile imageFile,
+                                                    @RequestPart(name = "recipe") RecipeRequestDto recipeRequestDto) throws IOException {
 
         //이미지 파일 경로
         String uploadFilePath = getUploadFilePath(imageFile);
@@ -61,6 +62,7 @@ public class RecipeController {
     //파일 경로를 리턴할 메서드 추출
     private String getUploadFilePath(MultipartFile imageFile) throws IOException {
         String uploadFilePath = null;
+
         if (imageFile != null) {
             uploadFilePath = recipeService.uploadImage(imageFile);
         }

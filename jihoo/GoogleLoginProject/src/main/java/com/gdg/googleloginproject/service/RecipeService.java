@@ -85,6 +85,14 @@ public class RecipeService {
         recipeRepository.delete(recipe);
     }
 
+    @Transactional(readOnly = true)
+    public List<RecipeInfoDto> readAllRecipes(Principal principal) {
+        List<Recipe> allRecipes = recipeRepository.findAll();
+        List<RecipeInfoDto> RecipeInfoDtos = allRecipes.stream().map(RecipeInfoDto::from).toList();
+
+        return RecipeInfoDtos;
+    }
+
     //사진 파일 저장하고 경로 리턴할 메서드
     public String uploadImage(MultipartFile imageFile) throws IOException {
 
@@ -99,12 +107,5 @@ public class RecipeService {
         imageFile.transferTo(uploadFile);
 
         return uniqueFileName;
-    }
-
-    public List<RecipeInfoDto> readAllRecipes(Principal principal) {
-        List<Recipe> allRecipes = recipeRepository.findAll();
-        List<RecipeInfoDto> RecipeInfoDtos = allRecipes.stream().map(RecipeInfoDto::from).toList();
-
-        return RecipeInfoDtos;
     }
 }
