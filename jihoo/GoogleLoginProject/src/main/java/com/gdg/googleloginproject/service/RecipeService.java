@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
@@ -82,6 +81,7 @@ public class RecipeService {
         if(recipe.getUser().getId() != userId){
             throw new CustomException(ErrorMessage.NO_PERMISSION_TO_DELETE);
         }
+
         recipeRepository.delete(recipe);
     }
 

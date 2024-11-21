@@ -2,8 +2,7 @@ package com.gdg.googleloginproject.domain;
 
 public enum Role {
 
-    USER("ROLE_USER"),
-    ADMIN("ROEL_ADMIN");
+    USER("ROLE_USER");
 
     private final String key;
 

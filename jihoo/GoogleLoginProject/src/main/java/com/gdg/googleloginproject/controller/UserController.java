@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
@@ -24,5 +26,10 @@ public class UserController {
     @GetMapping("/login")
     public ResponseEntity<TokenDto> login(@RequestBody UserLoginDto userLoginDto) {
         return ResponseEntity.ok().body(userService.loginUser(userLoginDto));
+    }
+
+    @GetMapping
+    public ResponseEntity<UserInfoDto> getUser(Principal principal) {
+        return ResponseEntity.ok().body(userService.getUser(principal));
     }
 }

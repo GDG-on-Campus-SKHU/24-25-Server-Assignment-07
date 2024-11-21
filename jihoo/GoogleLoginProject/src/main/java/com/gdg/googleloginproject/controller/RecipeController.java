@@ -23,6 +23,7 @@ public class RecipeController {
     public ResponseEntity<?> saveRecipe(Principal principal,
                                         @RequestPart(name = "ImageFile", required = false) MultipartFile imageFile, @RequestPart(name = "recipe") RecipeRequestDto recipeRequestDto) throws IOException {
 
+        //이미지 파일 경로
         String uploadFilePath = getUploadFilePath(imageFile);
 
         recipeService.saveRecipe(principal, uploadFilePath, recipeRequestDto);

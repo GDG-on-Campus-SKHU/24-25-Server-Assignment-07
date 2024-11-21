@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.security.Principal;
 
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
@@ -46,6 +47,16 @@ public class UserService {
     //이메일 중복검사 메서드
     private boolean isDuplicate(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    @Transactional(readOnly = true)
+    public UserInfoDto getUser(Principal principal) {
+        Long userId = Long.parseLong(principal.getName());
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ErrorMessage.USER_IS_NOT_EXIST));
+
+        return UserInfoDto.from(user);
     }
 
     @Transactional
