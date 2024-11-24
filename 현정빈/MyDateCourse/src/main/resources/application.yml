@@ -22,4 +22,4 @@ jwt:
 google:
   client:
     id: ${GOOGLE_CLIENT_ID}
-    SECRET: ${GOOGLE_CLIENT_SECRET}
+    secret: ${GOOGLE_CLIENT_SECRET}
