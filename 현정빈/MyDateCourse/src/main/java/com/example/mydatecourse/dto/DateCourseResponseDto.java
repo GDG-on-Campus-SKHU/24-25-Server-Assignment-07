@@ -15,7 +15,7 @@ public class DateCourseResponseDto {
     private Long id;
     private String title;
     private String description;
-    private String locaion;
+    private String location;
     private Long userId;
     private String season;
 
@@ -24,7 +24,7 @@ public class DateCourseResponseDto {
                 .id(dateCourse.getId())
                 .title(dateCourse.getTitle())
                 .description(dateCourse.getDescription())
-                .locaion(dateCourse.getLocation())
+                .location(dateCourse.getLocation())
                 .userId(dateCourse.getUser().getId())
                 .season(String.valueOf(dateCourse.getSeason()))
                 .build();
