@@ -9,6 +9,7 @@ import com.example.testproject.repository.AdminEmailRepository;
 import com.example.testproject.repository.UserRepository;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -24,9 +25,12 @@ public class GoogleLoginService {
     private final String GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token";
     //엑세스 토큰을 요청하는데에 필요한 애플리케이션 정보
     //GOOGLE_REDIRECT_URL은 인증을 마치면 리다이렉트될 URL
-    private final String GOOGLE_CLIENT_ID = "30189901443-beemg2flckdcsecs72gngvjimho3nftj.apps.googleusercontent.com";
-    private final String GOOGLE_CLIENT_SECRET = "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";
     private final String GOOGLE_REDIRECT_URI = "http://localhost:8080/api/callback/google";
+    @Value("${client_id}")
+    private String GOOGLE_CLIENT_ID;
+
+    @Value("${client_secret}")
+    private String GOOGLE_CLIENT_SECRET;
 
     private final UserRepository userRepository;
     private final TokenProvider tokenProvider;
