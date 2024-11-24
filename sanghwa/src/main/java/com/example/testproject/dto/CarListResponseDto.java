@@ -11,7 +11,7 @@ import java.util.List;
 public class CarListResponseDto {
     private List<CarResponseDto> cars;
 
-    public static CarListResponseDto from(List<CarResponseDto> cars){
+    public static CarListResponseDto from(List<CarResponseDto> cars) {
         return CarListResponseDto.builder().cars(cars).build();
     }
 }
